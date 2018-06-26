@@ -1,0 +1,45 @@
+logging:
+  level:
+    root: "${ROOT_LOG_LEVEL:INFO}"
+    it.eng.tim.profilo: "${SERVICE_LOG_LEVEL:DEBUG}"
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [${spring.application.name}] [trace=%16X{X-B3-TraceId:-},span=%16X{X-B3-SpanId:-}] %-30logger{0}: %m%n"
+    #file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] [%-5level] [%logger{36}] - %msg%n"
+  rest:
+    controller:
+      "it.eng.tim.profilo.web.ProfileController"
+
+  #file: "./profilo.log"
+
+
+profile:
+  integration:
+    sdp-base-path: "${SDP_PATH:http://localhost:8080}"
+    #sdp-base-path: "http://localhost:8080"
+    dca-base-path: "${DCA_PATH:http://localhost:8080}"
+
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: "${HTTP_CONN_TIMEOUT:5000}"
+        readTimeout: "${HTTP_DEF_TIMEOUT:10000}"
+        loggerLevel: basic
+
+      profile-sdp:
+        connectTimeout: "${SDP_CONN_TIMEOUT:5000}"
+        readTimeout: "${SDP_TIMEOUT:10000}"
+      profile-dca:
+        connectTimeout: "${DCA_CONN_TIMEOUT:5000}"
+        readTimeout: "${DCA_TIMEOUT:10000}"
+
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: "${HYSTRIX_TIMEOUT:20000}"
+      circuitBreaker:
+        enabled: true
+        sleepWindowInMilliseconds: "${HYSTRIX_TIMEOUT:20000}"
+      fallback.enabled: true
+

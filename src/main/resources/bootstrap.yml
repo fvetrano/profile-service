@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: profilo-service
+
+server:
+  port: "${port:8080}"
