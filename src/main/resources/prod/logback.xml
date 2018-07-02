@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+  <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+      <timestampPattern>[UNIX_TIMESTAMP_AS_NUMBER]</timestampPattern>    
+      <fieldNames>
+                 <timestamp>timestamp</timestamp>
+                 <version>version</version>
+      </fieldNames>
+      <customFields>{"service":"profile"}</customFields>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+    </filter>
+  </appender>
+		<appender-ref ref="FILE-ENGINE" />
+	</logger>
+	<logger name="org.springframework" level="error" additivity="false">
+		<appender-ref ref="FILE-ENGINE-ERROR" />
+	</logger-->
+	<logger name="it.eng.tim" level="debug" additivity="false">
+		<appender-ref ref="Console" />
+	</logger>
+  <root level="all">
+    <appender-ref ref="Console" />
+  </root>
+</configuration>
