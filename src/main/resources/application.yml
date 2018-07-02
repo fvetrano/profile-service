@@ -1,17 +1,3 @@
-logging:
-  level:
-    root: "${ROOT_LOG_LEVEL:INFO}"
-    it.eng.tim.profilo: "${SERVICE_LOG_LEVEL:DEBUG}"
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [${spring.application.name}] [trace=%16X{X-B3-TraceId:-},span=%16X{X-B3-SpanId:-}] %-30logger{0}: %m%n"
-    #file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] [%-5level] [%logger{36}] - %msg%n"
-  rest:
-    controller:
-      "it.eng.tim.profilo.web.ProfileController"
-
-  #file: "./profilo.log"
-
-
 profile:
   integration:
     sdp-base-path: "${SDP_PATH:http://localhost:8080}"
@@ -43,3 +29,28 @@ hystrix:
         sleepWindowInMilliseconds: "${HYSTRIX_TIMEOUT:20000}"
       fallback.enabled: true
 
+---
+spring:
+  profiles: dev
+logging:
+  level:
+    root: "${ROOT_LOG_LEVEL:INFO}"
+    it.eng.tim.profilo: "${SERVICE_LOG_LEVEL:DEBUG}"
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [${spring.application.name}] [trace=%16X{X-B3-TraceId:-},span=%16X{X-B3-SpanId:-}] %-30logger{0}: %m%n"
+  rest:
+    controller:
+      "it.eng.tim.profilo.web.ProfileController"
+---
+spring:
+  profiles: prod
+logging:
+  level:
+    root: "${ROOT_LOG_LEVEL:INFO}"
+    it.eng.tim.profilo: "${SERVICE_LOG_LEVEL:DEBUG}"
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [${spring.application.name}] [trace=%16X{X-B3-TraceId:-},span=%16X{X-B3-SpanId:-}] %-30logger{0}: %m%n"
+  rest:
+    controller:
+      "it.eng.tim.profilo.web.ProfileController"
+  config: "./src/main/resources/prod/logback.xml"
